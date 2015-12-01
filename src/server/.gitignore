@@ -1,5 +1,5 @@
 # Created by .gitignore support plugin (hsz.mobi)
-sessions
+sessions/
 .idea
 node_modules/
 tmp/
