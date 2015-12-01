@@ -36,40 +36,7 @@ app.use(sessionHandler);
 
 var server = http.createServer(app);
 server.listen(config.server.port);
-
-
-// setup passport for facebook +twitter auth
-passport.use(new FacebookStrategy({
-        clientID: config.facebook.clientID,
-        clientSecret: config.facebook.clientSecret,
-        callbackURL: config.siteRoot + config.facebook.callbackURL
-    },
-    function (accessToken, refreshToken, profile, done) {
-        console.log("facebook auth granted by ", profile.displayName);
-        done(null, {
-            type: "facebook",
-            id: "facebook-" + profile.id,
-            img: 'https://graph.facebook.com/' + profile.id + '/picture',
-            name: profile.displayName
-        });
-    }
-));
-
-passport.use(new TwitterStrategy({
-        consumerKey: config.twitter.consumerKey,
-        consumerSecret: config.twitter.consumerSecret,
-        callbackURL: config.siteRoot + config.twitter.callbackURL
-    },
-    function (token, tokenSecret, profile, done) {
-        console.log("twitter auth granted by ", profile.displayName);
-        done(null, {
-            type: "twitter",
-            id: "twitter-" + profile.id,
-            img: profile.photos[0].value,
-            name: profile.displayName
-        });
-    }
-));
+console.log("Listening on port: ", config.server.port);
 
 passport.serializeUser(function (req, user, done) {
     console.log( req.session.user.spotifyUsername + " auth'd social - user: ", user);
@@ -90,21 +57,6 @@ passport.deserializeUser(function (user, req, done) {
     done(null, user);
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
-
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect: '/app.html',
-        failureRedirect: '/social-error' //todo: social error page
-    }));
-
-app.get('/auth/twitter', passport.authenticate('twitter'));
-
-app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', {
-        successRedirect: '/app.html',
-        failureRedirect: '/social-error'
-    }));
 
 
 // initialise soundbounce

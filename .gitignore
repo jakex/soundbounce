@@ -16,8 +16,8 @@ keys.xml
 builds/
 
 #json history
-history/
-sessions/
+/src/server/json/history/
+/src/server/sessions/
 
 # User-specific files
 *.suo

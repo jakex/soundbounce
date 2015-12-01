@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundBounce.SpotifyAPI", "SoundBounce.Spotify.API\SoundBounce.SpotifyAPI.csproj", "{5C2E5C85-AFC2-4066-BC59-CF5B19EB6A82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundBounce.WindowsClient", "SoundBounce.WindowsClient\SoundBounce.WindowsClient.csproj", "{A48F063B-9425-424C-82B3-42C00F7190A0}"
@@ -23,6 +25,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "server", "server\", "{48FB5
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "61594"
+		SlnRelativePath = "server\"
 	EndProjectSection
 EndProject
 Global

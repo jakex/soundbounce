@@ -53,7 +53,7 @@ var soundbounceServer = {
             r.listeners = [];
             trackCount += r.tracks.length;
             // filter null tracks
-            r.tracks = r.tracks.filter(function(n){ return n != undefined });
+            r.tracks = r.tracks.filter(function(n){ return n != undefined; });
         });
 
 
@@ -103,8 +103,10 @@ var soundbounceServer = {
                 user = {
                     id: shortId.generate(),
                     spotifyUsername: username.toLowerCase(),
-                    social: "none",
-                    joinedDate: new Date()
+                    social: "notnone",
+                    joinedDate: new Date(),
+                    name: username,
+                    img: "http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y"
                 };
 
                 server.users.push(user);
@@ -136,8 +138,8 @@ var soundbounceServer = {
                     nowPlaying: room.tracks.length > 0 ? room.tracks[0] : null,
                     color: room.color,
                     description: room.description,
-                    visits: room.visits ? room.visits : 0
-                }
+                    visits: room.visits ? room.visits : 0,
+                };
             });
 
             var orderedRoomList = _(simpleRoomList).chain().sortBy( function (r) {
@@ -458,7 +460,7 @@ var soundbounceServer = {
                             server.processVoteToSkip(room, user, msg.payload);
                             break;
                     }
-                })
+                });
             });
         });
 
@@ -627,7 +629,7 @@ var soundbounceServer = {
             payload: this.getClientViewOfRoom(room),
             user: user,
             now: new Date()
-        }
+        };
     },
 
     getRandomInt: function (min, max) {
@@ -1348,7 +1350,7 @@ var soundbounceServer = {
             } catch (err) {
                 console.log("failed to broadcast (socket.send) to " + listener.id);
                 try {
-                    soundbounceServer.sockets[listener.id].close()
+                    soundbounceServer.sockets[listener.id].close();
                 } catch (errr) {
                 }
                 // drop the socket
