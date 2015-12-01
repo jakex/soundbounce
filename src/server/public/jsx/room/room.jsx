@@ -22,11 +22,12 @@ var RoomPage = React.createClass({
             });
         }).bind(this);
 
+		this.setState({volume: 0.25});
         this.socket.onerror = function (err) {
             router.alert("An error occurred whilst connecting to the room: " + err + ", perhaps WebSockets are blocked by a corporate firewall?", "Ooops, something went wrong...");
         }
 
-        this.setupEvents();
+        this.setupEvents();	
 
         this.intervalId = setInterval(this.tick, this.UPDATE_STATE_DELAY);
     },
@@ -72,6 +73,14 @@ var RoomPage = React.createClass({
         eventbus.on("open-in-spotify", function (track) {
             try {
                 spotifyBrowserApi.openInSpotify(track.id);
+            } catch (err) {
+                console.warn("No spotifyBrowserApi found!? ", err);
+            }
+        });
+
+		eventbus.on("set-volume", function (value) {
+            try {
+                spotifyBrowserApi.setVolume(value);
             } catch (err) {
                 console.warn("No spotifyBrowserApi found!? ", err);
             }
@@ -517,6 +526,11 @@ var RoomPage = React.createClass({
         }
     },
 
+	 onVolumeChange: function (e) {
+		this.setState({volume: e.target.value});
+		eventbus.trigger("set-volume", this.state.volume);
+    },
+
     clearSearch: function (e) {
         this.searchNext = null;
         this.setState({search: '', spotifySearchResults: []});
@@ -739,7 +753,9 @@ var RoomPage = React.createClass({
                                 <div className="col-xs-12">
                                     <div className="play-pause-container pull-left">
                                         <a href="javascript:void(0)" onClick={this.onClickPlayPause} className={'btn btn-fab btn-success btn-pause-play ' + (this.state.playing ? 'mdi-av-pause' : 'mdi-av-play-arrow')} style={{color: this.state.room.color}}> </a>
-                                    </div>
+                                    
+									
+									</div>
                                     <div>
                                         <h2 className="hide-overflow room-name">
                                         {this.state.room.name}
@@ -764,9 +780,10 @@ var RoomPage = React.createClass({
                                             <span className="room-description">
                                             {this.state.room.description}
                                             </span>
-
                                         </p>
+                                        <input type="range" min="0.0" max="1.0" value={this.state.volume} step="0.001" onChange={this.onVolumeChange} style={{width: '55%', marginLeft: '32px', marginBottom: '10px', marginTop: '10px'}} />
                                     </div>
+
                                 </div>
 
                             </div>

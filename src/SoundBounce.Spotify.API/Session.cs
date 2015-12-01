@@ -203,6 +203,11 @@ namespace SoundBounce.SpotifyAPI
             }
         }
 
+        public static void SetVolume(float volume)
+        {
+            waveOut.Volume = volume;
+        }
+
         private static libspotify.sp_error initSession()
         {
             lock (_lock)
@@ -375,7 +380,7 @@ namespace SoundBounce.SpotifyAPI
             int averageBytesPerSecond = format.sample_rate * blockAlign;
             var waveFormat = WaveFormat.CreateCustomFormat(WaveFormatEncoding.Pcm, format.sample_rate, format.channels,
                                                            averageBytesPerSecond, blockAlign, bitsPerSample);
-
+            
             soundBuffer = new BufferedWaveProvider(waveFormat);
             soundBuffer.BufferDuration = TimeSpan.FromSeconds(10);
             waveOut.Init(soundBuffer);

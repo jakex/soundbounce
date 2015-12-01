@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -40,10 +41,22 @@ namespace SoundBounce.WindowsClient
             this.username = username;
             Task task = Task.Factory.StartNew(() => Spotify.Login(username, password));
         }
-
+        
         public void openInSpotify(string trackId)
         {
             Process.Start("spotify:track:" + trackId+"?action=browse");
+        }
+
+        public void setVolume(string value)
+        {
+            //value += "f";
+            var vol = 0f;
+            var newVol = float.Parse(value, NumberStyles.Float, CultureInfo.InvariantCulture);
+            if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out vol))
+            {
+                Session.SetVolume(vol);
+            }
+
         }
 
         public void pauseTrack()

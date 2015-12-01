@@ -45,7 +45,7 @@ var RoomEdit = React.createClass({
             return;
 
         var component = this;
-
+		console.error("thgis happens at least");
         $.ajax({
             url: '/editroom?id=' + encodeURIComponent(component.state.room.id)
             + '&name=' + encodeURIComponent(component.state.room.name)
@@ -77,7 +77,13 @@ var RoomEdit = React.createClass({
         this.setState(React.addons.update(this.state, {room: {description: {$set: e.target.value.substr(0, 140)}}}));
     },
 
+	onChangePassword: function (e) {
+        this.setState(React.addons.update(this.state, {room: {password: {$set: e.target.value.substr(0, 140)}}}));
+		console.log("ASDASDASD!! ",this.state.room.password)
+    },
+
     onClickShowAdvanced: function (e) {
+		console.log("NOTICE ME");
         this.setState({showAdvanced: true});
         _.defer(function () {
             $('#topUpURI').focus();
@@ -109,6 +115,11 @@ var RoomEdit = React.createClass({
                                 <div className="form-group">
                                     <div className="col-sm-12">
                                         <input type="text" className="form-control floating-label" id="roomDesc" placeholder="Short description" value={this.state.room.description} onChange={this.onChangeDescription}/>
+                                    </div>
+                                </div>
+								<div className="form-group">
+                                    <div className="col-sm-12">
+                                        <input type="password" className="form-control floating-label" id="roomPw" placeholder="Room password" value={this.state.room.password} onChange={this.onChangePassword}/>
                                     </div>
                                 </div>
                                 <div className="form-group">
